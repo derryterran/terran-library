@@ -35,31 +35,17 @@ A Spring Boot application that provides REST APIs for managing a library system.
 
 ### Running the Application
 
-#### Using Maven
+#### Clone the repository
 
 ```bash
 # Clone the repository
 git clone https://github.com/derryterran/terran-library.git
-cd terran-library
-
-# Set up PostgreSQL
-# Make sure PostgreSQL is installed and running on your machine
-# Create a database named 'terran_library'
-createdb terran_library
-
-# Build the application
-mvn clean package
-
-# Run the application
-java -jar target/terran-library-0.0.1-SNAPSHOT.jar
-or 
-mvn spring-boot:run
 ```
 
 #### Using Docker
 
 ```bash
-# Clone the repository
+# After clone the repository
 git clone https://github.com/derryterran/terran-library.git
 cd terran-library
 
@@ -68,6 +54,22 @@ docker-compose up -d
 
 # This will start both the PostgreSQL database and the application
 # The application will wait for PostgreSQL to be ready before starting
+```
+
+#### Using Maven
+
+```bash
+# After clone the repository
+git clone https://github.com/derryterran/terran-library.git
+cd terran-library
+
+# Build the application
+mvn clean package
+
+# Run the application
+java -jar target/terran-library-0.0.1-SNAPSHOT.jar
+or via spring boot
+mvn spring-boot:run
 ```
 
 ### Environment Profiles
