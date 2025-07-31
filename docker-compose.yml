@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: terran-library-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=terran_library
+      - POSTGRES_USER=terrandb
+      - POSTGRES_PASSWORD=terrandb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U terrandb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  library-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: terran-library
+    ports:
+      - "8082:8080"
+    volumes:
+      - library-logs:/var/log/terran-library
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=terran_library
+      - DB_USERNAME=terrandb
+      - DB_PASSWORD=terrandb
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres-data:
+    # This volume stores the PostgreSQL database data
+  library-logs:
+    # This volume stores application logs

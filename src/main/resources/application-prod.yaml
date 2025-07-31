@@ -1,0 +1,51 @@
+# Production environment specific properties
+spring:
+  # PostgreSQL database configuration for production
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:terran_library}
+    username: ${DB_USERNAME:terrandb}
+    password: ${DB_PASSWORD:terrandb}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    entity-packages: com.terran.library.model
+    # Hibernate properties for production
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Server configuration for production
+server:
+  port: 8080
+  tomcat:
+    max-threads: 200
+    min-spare-threads: 20
+
+# Logging configuration for production
+logging:
+  level:
+    root: WARN
+    com.terran.library: INFO
+  file:
+    name: /var/log/terran-library/application.log
+    max-size: 10MB
+    max-history: 10
+
+# Actuator configuration for production
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: never
+
+# Swagger configuration for production
+springdoc:
+  swagger-ui:
+    enabled: false

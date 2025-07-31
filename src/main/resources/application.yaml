@@ -1,0 +1,60 @@
+# Common application properties
+spring:
+  application:
+    name: terran-library
+  # PostgreSQL database configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/terran_library
+    username: terrandb
+    password: terrandb
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    entity-packages: com.terran.library.model
+    # Hibernate properties
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Server configuration
+server:
+  port: 8084
+
+# Swagger/OpenAPI configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+# Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    com.terran.library: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+    org.springframework.transaction: TRACE
+    org.springframework.orm.jpa: TRACE
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
